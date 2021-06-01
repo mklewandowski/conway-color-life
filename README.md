@@ -1,4 +1,4 @@
-Conway Color Life is a variation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). Conway Color Life is hosted on a GitHub Page at https://mklewandowski.github.io/conway-color-life/
+Conway Color Life is a variation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). Conway Color Life is hosted on a GitHub Page at https://mklewandowski.github.io/conway-color-life/index.html
 
 ## Run Locally
 - clone GitHub repo
