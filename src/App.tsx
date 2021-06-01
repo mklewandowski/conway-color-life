@@ -160,37 +160,38 @@ function App() {
     setGridCells(newGridCells);
   }
 
-  const generationUpdate = () => {
-    const newGridCells: Cell[] = [];
-    const arrayLength = gridCells.length;
-    for (let cell = 0; cell < arrayLength; cell++) {
-      let adjacentAlive = 0;
-      // prev
-      adjacentAlive = adjacentAlive + (cell === 0 ? gridCells[rows * cols - 1].state : gridCells[cell - 1].state);
-      // next
-      adjacentAlive = adjacentAlive + (cell === (rows * cols - 1) ? gridCells[0].state : gridCells[cell + 1].state);
-      // row below
-      adjacentAlive = adjacentAlive + ((cell - cols - 1) < 0 ? gridCells[arrayLength + (cell - cols - 1)].state : gridCells[cell - cols - 1].state);
-      adjacentAlive = adjacentAlive + ((cell - cols) < 0 ? gridCells[arrayLength + (cell - cols)].state : gridCells[cell - cols].state);
-      adjacentAlive = adjacentAlive + ((cell - cols + 1) < 0 ? gridCells[arrayLength + (cell - cols + 1)].state : gridCells[cell - cols + 1].state);
-      // row above
-      adjacentAlive = adjacentAlive + ((cell + cols - 1) >= arrayLength ? gridCells[(cell + cols - 1) - arrayLength].state : gridCells[cell + cols - 1].state);
-      adjacentAlive = adjacentAlive + ((cell + cols) >= arrayLength ? gridCells[(cell + cols) - arrayLength].state : gridCells[cell + cols].state);
-      adjacentAlive = adjacentAlive + ((cell + cols + 1) >= arrayLength ? gridCells[(cell + cols + 1) - arrayLength].state : gridCells[cell + cols + 1].state);
-
-      const isAlive = gridCells[cell].state === 1;
-      if (adjacentAlive === 3 || (adjacentAlive === 2 && isAlive)) {
-        const age = gridCells[cell].age + 1;
-        newGridCells.push({age: isAlive ? age % colorThemes[currentColor].colors.length : 0, state: 1})
-      } else {
-        newGridCells.push(initialDeadCell);
-      }
-    }
-    setGridCells(newGridCells);
-    setGeneration(generation + 1);
-  }
-
   useEffect(() => {
+
+    const generationUpdate = () => {
+      const newGridCells: Cell[] = [];
+      const arrayLength = gridCells.length;
+      for (let cell = 0; cell < arrayLength; cell++) {
+        let adjacentAlive = 0;
+        // prev
+        adjacentAlive = adjacentAlive + (cell === 0 ? gridCells[rows * cols - 1].state : gridCells[cell - 1].state);
+        // next
+        adjacentAlive = adjacentAlive + (cell === (rows * cols - 1) ? gridCells[0].state : gridCells[cell + 1].state);
+        // row below
+        adjacentAlive = adjacentAlive + ((cell - cols - 1) < 0 ? gridCells[arrayLength + (cell - cols - 1)].state : gridCells[cell - cols - 1].state);
+        adjacentAlive = adjacentAlive + ((cell - cols) < 0 ? gridCells[arrayLength + (cell - cols)].state : gridCells[cell - cols].state);
+        adjacentAlive = adjacentAlive + ((cell - cols + 1) < 0 ? gridCells[arrayLength + (cell - cols + 1)].state : gridCells[cell - cols + 1].state);
+        // row above
+        adjacentAlive = adjacentAlive + ((cell + cols - 1) >= arrayLength ? gridCells[(cell + cols - 1) - arrayLength].state : gridCells[cell + cols - 1].state);
+        adjacentAlive = adjacentAlive + ((cell + cols) >= arrayLength ? gridCells[(cell + cols) - arrayLength].state : gridCells[cell + cols].state);
+        adjacentAlive = adjacentAlive + ((cell + cols + 1) >= arrayLength ? gridCells[(cell + cols + 1) - arrayLength].state : gridCells[cell + cols + 1].state);
+
+        const isAlive = gridCells[cell].state === 1;
+        if (adjacentAlive === 3 || (adjacentAlive === 2 && isAlive)) {
+          const age = gridCells[cell].age + 1;
+          newGridCells.push({age: isAlive ? age % colorThemes[currentColor].colors.length : 0, state: 1})
+        } else {
+          newGridCells.push(initialDeadCell);
+        }
+      }
+      setGridCells(newGridCells);
+      setGeneration(generation + 1);
+    }
+
     let timer: any;
     if (isRunning) {
       timer = window.setInterval(() => {
@@ -200,7 +201,7 @@ function App() {
     return () => { // Return callback to run on unmount.
       window.clearInterval(timer);
     };
-  }, [isRunning, generationUpdate]); // Pass in empty array to run useEffect only on mount.
+  }, [isRunning, currentSpeed, currentColor, generation, gridCells]); // Pass in empty array to run useEffect only on mount.
 
   const handleChange = (event: any) => {
     setCurrentSpeed(event.target.value);

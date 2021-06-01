@@ -35,6 +35,7 @@
   height: 30px;
   font-family: 'VT323', monospace;
   font-size: 22px;
+  cursor: pointer;
 }
 
 .shapes {
@@ -52,6 +53,7 @@
   height: 30px;
   font-family: 'VT323', monospace;
   font-size: 22px;
+  cursor: pointer;
 }
 
 .grid {
@@ -78,6 +80,7 @@
   height: 30px;
   font-family: 'VT323', monospace;
   font-size: 22px;
+  cursor: pointer;
 }
 
 .slider-container {
