@@ -31,7 +31,7 @@ const colorThemes: ColorTheme[] = [
   },
   { name: "Orange-Blue",
     colors: ["#ff7e00", "#ff5e1c", "#ff2e33", "#ff004a", "#ff0064", "#ff0081", "#f100a0", "#cf00c1", "#9900e2", "#0000ff",
-      "#9900e2", "#cf00c1", "#f100a0", "#ff0081", "#ff0064", "#ff004a", "#ff2e33", "#ff5e1c", "#00ff00"]
+      "#9900e2", "#cf00c1", "#f100a0", "#ff0081", "#ff0064", "#ff004a", "#ff2e33", "#ff5e1c", "#ff7e00"]
   },
   { name: "Rainbow",
     colors: ["#ff0000", "#FF7F00", "#FFFF00", "#00FF00", "#0000FF", "#4B0082", "#9400D3", "#4B0082", "#0000FF", "#00FF00", "#FFFF00", "#FF7F00", "#ff0000"]
