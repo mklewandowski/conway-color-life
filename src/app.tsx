@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Header } from "./header";
+import { Header } from "./app-header";
 import { GridCell } from "./grid-cell";
 import { Cell, initialDeadCell, initialAliveCell, colorThemes, shapes, getGridFromShape } from "./utils";
 
