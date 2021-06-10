@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import "./Header.css";
+import "./header.css";
 
 export const Header: React.FC = () => {
   const [expanded, setExpanded] = useState(false);

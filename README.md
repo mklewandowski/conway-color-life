@@ -1,4 +1,13 @@
-Conway Color Life is a variation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). Conway Color Life is hosted on a GitHub Page at https://mklewandowski.github.io/conway-color-life/index.html
+Conway Color Life is a cellular automaton variation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life), a collection of cells arranged in a grid that change over time based on a set of simple rules.
+ - A living cell with less than 2 neighbors dies
+ - A living cell with 2 or 3 neighbors lives
+ - A living cell with more than 3 neighbors dies
+ - A dead cell with 3 living neighbors becomes alive
+ - With each generation that a cell survives, the cell ages
+ - Cells change color as they age based on the selected color theme
+
+Conway Color Life is hosted on a GitHub Page at https://mklewandowski.github.io/conway-color-life/index.html
+
 
 ## Run Locally
 - clone GitHub repo

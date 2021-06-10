@@ -1,73 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Header } from "./Header";
-import { GridCell } from "./GridCell";
+import { Header } from "./header";
+import { GridCell } from "./grid-cell";
+import { Cell, initialDeadCell, initialAliveCell, colorThemes, shapes, getGridFromShape } from "./utils";
 
-import "./App.css";
+import "./app.css";
 
 const rows = 50;
 const cols = 50;
-interface Cell {
-  state: number,
-  age: number;
-}
-const initialDeadCell: Cell = {state: 0, age: 0};
-const initialAliveCell: Cell = {state: 1, age: 0};
-
 const speeds: number[] = [500, 250, 100];
-
-interface ColorTheme {
-  name: string,
-  colors: string[]
-}
-
-const colorThemes: ColorTheme[] = [
-  { name: "Purple-Yellow",
-    colors: ["#8400ab", "#bb009d", "#e50089", "#ff0073", "#ff355b", "#ff6543", "#ff8e2a", "#ffb407", "#ffd900", "#fcfb2d",
-    "#ffd900", "#ffb407", "#ff8e2a", "#ff6543", "#ff355b", "#ff0073", "#e50089", "#bb009d", "#8400ab"]
-  },
-  { name: "Orange-Blue",
-    colors: ["#ff7e00", "#ff5e1c", "#ff2e33", "#ff004a", "#ff0064", "#ff0081", "#f100a0", "#cf00c1", "#9900e2", "#0000ff",
-      "#9900e2", "#cf00c1", "#f100a0", "#ff0081", "#ff0064", "#ff004a", "#ff2e33", "#ff5e1c", "#ff7e00"]
-  },
-  { name: "Sky-Rose",
-  colors: ["#00b5e2", "#19adee", "#4ba2f5", "#7795f4", "#a084ea", "#c270d6", "#dd59b9", "#ef4294", "#f5326b", "#ef3340",
-    "#f5326b", "#ef4294", "#dd59b9", "#c270d6", "#a084ea", "#7795f4", "#4ba2f5", "#19adee", "#00b5e2"]
-  },
-  { name: "Indigo-Fuchsia",
-    colors: ["#7200fe", "#8a00fb", "#9e00f8", "#b000f4", "#c000f1", "#cf00ee", "#dc00ea", "#e900e7", "#f400e4", "#ff00e1",
-      "#f400e4", "#e900e7", "#dc00ea", "#cf00ee", "#c000f1", "#b000f4", "#9e00f8", "#8a00fb", "#7200fe"]
-  },
-  { name: "Magenta-Lime",
-    colors: ["#a31746", "#b62a40", "#c73f39", "#d35530", "#dd6c24", "#e28315", "#e39b00", "#dfb400", "#d8cc02", "#cbe426",
-      "#d8cc02", "#dfb400", "#e39b00", "#e28315", "#dd6c24", "#d35530", "#c73f39", "#b62a40", "#a31746"]
-  },
-  { name: "Green-Red",
-    colors: ["#00ff00", "#6fed00", "#98db00", "#b6c700", "#cdb200", "#df9b00", "#ee8200", "#f86600", "#fe4400", "#ff0000",
-      "#fe4400", "#f86600", "#ee8200", "#df9b00", "#cdb200", "#b6c700", "#98db00", "#6fed00", "#00ff00"]
-  },
-  { name: "Confetti",
-    colors: ["#ff0000", "#ffa500", "#ffff00", "#008000", "#0000ff", "#4b0082", "#ee82ee", "#4b0082", "#0000ff", "#008000", "#ffff00", "#ffa500", "#ff0000"]
-  },
-  { name: "Valentine",
-    colors: ["#fa6e6e", "#ff6374", "#ff587c", "#ff4b86", "#ff3d92", "#ff2da0", "#ff1ab0", "#ff02c1", "#ff00d4", "#ff00e8",
-      "#ff00d4", "#ff02c1", "#ff1ab0", "#ff2da0", "#ff3d92", "#ff4b86", "#ff587c", "#ff6374", "#fa6e6e"]
-  },
-];
-
-interface Shape {
-  name: string,
-}
-
-const shapes: Shape[] = [
-  { name: "Big Mug" },
-  { name: "Snake" },
-  { name: "Bucket" },
-  { name: "Double Bucket" },
-  { name: "Hexa-Bucket" },
-  { name: "Glider" },
-  { name: "Dragons" },
-  { name: "R-Pentomino" },
-];
 
 function App() {
   const [isRunning, setIsRunning] = useState(false);
@@ -89,217 +29,27 @@ function App() {
   }
 
   const setShape = (shape: string) => {
-    const newGridCells = Array.from({length: rows * cols}, (v, i) => initialDeadCell);
-    const middle = rows * cols * .5 - rows * .5;
-    if (shape === "R-Pentomino") {
-      newGridCells[middle - 1] = {state: 1, age: 0};
-      newGridCells[middle] = {state: 1, age: 0};
-      newGridCells[middle - rows] = {state: 1, age: 0};
-      newGridCells[middle - rows + 1] = {state: 1, age: 0};
-      newGridCells[middle + rows] = {state: 1, age: 0};
-    } else if (shape === "Snake") {
-      newGridCells[middle - 1] = {state: 1, age: 0};
-      newGridCells[middle] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows] = {state: 1, age: 0};
-      newGridCells[middle + rows] = {state: 1, age: 0};
-      newGridCells[middle - rows * 2- 1] = {state: 1, age: 0};
-      newGridCells[middle - rows * 2] = {state: 1, age: 0};
-      newGridCells[middle + rows * 2 - 1] = {state: 1, age: 0};
-      newGridCells[middle + rows * 2] = {state: 1, age: 0};
-      newGridCells[middle - rows * 3] = {state: 1, age: 0};
-      newGridCells[middle - 1 + rows * 3] = {state: 1, age: 0};
-      newGridCells[middle - rows * 4 - 1] = {state: 1, age: 0};
-      newGridCells[middle - rows * 4] = {state: 1, age: 0};
-      newGridCells[middle + rows * 4 - 1] = {state: 1, age: 0};
-      newGridCells[middle + rows * 4] = {state: 1, age: 0};
-    } else if (shape === "Bucket") {
-      newGridCells[middle - 1] = {state: 1, age: 0};
-      newGridCells[middle] = {state: 1, age: 0};
-      newGridCells[middle + 1] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows * 2] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows * 2] = {state: 1, age: 0};
-    } else if (shape === "Big Mug") {
-      newGridCells[middle - 5] = {state: 1, age: 0};
-      newGridCells[middle - 2] = {state: 1, age: 0};
-      newGridCells[middle - 1] = {state: 1, age: 0};
-      newGridCells[middle] = {state: 1, age: 0};
-      newGridCells[middle + 1] = {state: 1, age: 0};
-      newGridCells[middle + 2] = {state: 1, age: 0};
-      newGridCells[middle + 5] = {state: 1, age: 0};
-      newGridCells[middle - 5 + rows] = {state: 1, age: 0};
-      newGridCells[middle - 4 + rows] = {state: 1, age: 0};
-      newGridCells[middle - 3 + rows] = {state: 1, age: 0};
-      newGridCells[middle - 2 + rows] = {state: 1, age: 0};
-      newGridCells[middle - 1 + rows] = {state: 1, age: 0};
-      newGridCells[middle + rows] = {state: 1, age: 0};
-      newGridCells[middle + 1 + rows] = {state: 1, age: 0};
-      newGridCells[middle + 2 + rows] = {state: 1, age: 0};
-      newGridCells[middle + 3 + rows] = {state: 1, age: 0};
-      newGridCells[middle + 4 + rows] = {state: 1, age: 0};
-      newGridCells[middle + 5 + rows] = {state: 1, age: 0};
-      newGridCells[middle - 2 + rows * 2] = {state: 1, age: 0};
-      newGridCells[middle - 1 + rows * 2] = {state: 1, age: 0};
-      newGridCells[middle + rows * 2] = {state: 1, age: 0};
-      newGridCells[middle + 1 + rows * 2] = {state: 1, age: 0};
-      newGridCells[middle + 2 + rows * 2] = {state: 1, age: 0};
-      newGridCells[middle - 5 - rows] = {state: 1, age: 0};
-      newGridCells[middle - 4 - rows] = {state: 1, age: 0};
-      newGridCells[middle - 3 - rows] = {state: 1, age: 0};
-      newGridCells[middle - 2 - rows] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows] = {state: 1, age: 0};
-      newGridCells[middle - rows] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows] = {state: 1, age: 0};
-      newGridCells[middle + 2 - rows] = {state: 1, age: 0};
-      newGridCells[middle + 3 - rows] = {state: 1, age: 0};
-      newGridCells[middle + 4 - rows] = {state: 1, age: 0};
-      newGridCells[middle + 5 - rows] = {state: 1, age: 0};
-      newGridCells[middle + 2 - rows * 2] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows * 2] = {state: 1, age: 0};
-      newGridCells[middle - rows * 2] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows * 2] = {state: 1, age: 0};
-      newGridCells[middle - 2 - rows * 2] = {state: 1, age: 0};
-    } else if (shape === "Double Bucket") {
-      newGridCells[middle - 1 - 2] = {state: 1, age: 0};
-      newGridCells[middle - 2] = {state: 1, age: 0};
-      newGridCells[middle + 1 - 2] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows - 2] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows * 2 - 2] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows - 2] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows * 2 - 2] = {state: 1, age: 0};
-
-      newGridCells[middle - 1 + 3] = {state: 1, age: 0};
-      newGridCells[middle + 3] = {state: 1, age: 0};
-      newGridCells[middle + 1 + 3] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows + 3] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows * 2 + 3] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows + 3] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows * 2 + 3] = {state: 1, age: 0};
-    } else if (shape === "Hexa-Bucket") {
-      newGridCells[middle - 1 - 2] = {state: 1, age: 0};
-      newGridCells[middle - 2] = {state: 1, age: 0};
-      newGridCells[middle + 1 - 2] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows - 2] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows * 2 - 2] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows - 2] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows * 2 - 2] = {state: 1, age: 0};
-
-      newGridCells[middle - 1 - 8] = {state: 1, age: 0};
-      newGridCells[middle - 8] = {state: 1, age: 0};
-      newGridCells[middle + 1 - 8] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows - 8] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows * 2 - 8] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows - 8] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows * 2 - 8] = {state: 1, age: 0};
-
-      newGridCells[middle - 1 - 13] = {state: 1, age: 0};
-      newGridCells[middle - 13] = {state: 1, age: 0};
-      newGridCells[middle + 1 - 13] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows - 13] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows * 2 - 13] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows - 13] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows * 2 - 13] = {state: 1, age: 0};
-
-      newGridCells[middle - 1 + 3] = {state: 1, age: 0};
-      newGridCells[middle + 3] = {state: 1, age: 0};
-      newGridCells[middle + 1 + 3] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows + 3] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows * 2 + 3] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows + 3] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows * 2 + 3] = {state: 1, age: 0};
-
-      newGridCells[middle - 1 + 9] = {state: 1, age: 0};
-      newGridCells[middle + 9] = {state: 1, age: 0};
-      newGridCells[middle + 1 + 9] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows + 9] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows * 2 + 9] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows + 9] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows * 2 + 9] = {state: 1, age: 0};
-
-      newGridCells[middle - 1 + 14] = {state: 1, age: 0};
-      newGridCells[middle + 14] = {state: 1, age: 0};
-      newGridCells[middle + 1 + 14] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows + 14] = {state: 1, age: 0};
-      newGridCells[middle - 1 - rows * 2 + 14] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows + 14] = {state: 1, age: 0};
-      newGridCells[middle + 1 - rows * 2 + 14] = {state: 1, age: 0};
-    } else if (shape === "Dragons") {
-      newGridCells[middle - 2] = {state: 1, age: 0};
-      newGridCells[middle - 3] = {state: 1, age: 0};
-      newGridCells[middle + 2] = {state: 1, age: 0};
-      newGridCells[middle + 3] = {state: 1, age: 0};
-      newGridCells[middle - 2 + rows] = {state: 1, age: 0};
-      newGridCells[middle + 2 + rows] = {state: 1, age: 0};
-      newGridCells[middle - 7 + rows] = {state: 1, age: 0};
-      newGridCells[middle + 7 + rows] = {state: 1, age: 0};
-      newGridCells[middle - 2 + rows * 2] = {state: 1, age: 0};
-      newGridCells[middle + 2 + rows * 2] = {state: 1, age: 0};
-      newGridCells[middle - 2 + rows * 3] = {state: 1, age: 0};
-      newGridCells[middle + 2 + rows * 3] = {state: 1, age: 0};
-      newGridCells[middle - 6 + rows * 3] = {state: 1, age: 0};
-      newGridCells[middle + 6 + rows * 3] = {state: 1, age: 0};
-      newGridCells[middle - 7 + rows * 3] = {state: 1, age: 0};
-      newGridCells[middle + 7 + rows * 3] = {state: 1, age: 0};
-      newGridCells[middle - 2 + rows * 4] = {state: 1, age: 0};
-      newGridCells[middle + 2 + rows * 4] = {state: 1, age: 0};
-      newGridCells[middle - 5 + rows * 4] = {state: 1, age: 0};
-      newGridCells[middle + 5 + rows * 4] = {state: 1, age: 0};
-      newGridCells[middle - 3 + rows * 5] = {state: 1, age: 0};
-      newGridCells[middle + 3 + rows * 5] = {state: 1, age: 0};
-      newGridCells[middle - 3 - rows] = {state: 1, age: 0};
-      newGridCells[middle + 3 - rows] = {state: 1, age: 0};
-      newGridCells[middle - 5 - rows] = {state: 1, age: 0};
-      newGridCells[middle + 5 - rows] = {state: 1, age: 0};
-      newGridCells[middle - 4 - rows * 2] = {state: 1, age: 0};
-      newGridCells[middle + 4 - rows * 2] = {state: 1, age: 0};
-      newGridCells[middle - 5 - rows * 2] = {state: 1, age: 0};
-      newGridCells[middle + 5 - rows * 2] = {state: 1, age: 0};
-      newGridCells[middle - 6 - rows * 2] = {state: 1, age: 0};
-      newGridCells[middle + 6 - rows * 2] = {state: 1, age: 0};
-      newGridCells[middle - 5 - rows * 3] = {state: 1, age: 0};
-      newGridCells[middle + 5 - rows * 3] = {state: 1, age: 0};
-      newGridCells[middle - 2 - rows * 3] = {state: 1, age: 0};
-      newGridCells[middle + 2 - rows * 3] = {state: 1, age: 0};
-      newGridCells[middle - 2 - rows * 4] = {state: 1, age: 0};
-      newGridCells[middle + 2 - rows * 4] = {state: 1, age: 0};
-      newGridCells[middle - 3 - rows * 4] = {state: 1, age: 0};
-      newGridCells[middle + 3 - rows * 4] = {state: 1, age: 0};
-      newGridCells[middle - 4 - rows * 4] = {state: 1, age: 0};
-      newGridCells[middle + 4 - rows * 4] = {state: 1, age: 0};
-      newGridCells[middle - 3 - rows * 5] = {state: 1, age: 0};
-      newGridCells[middle + 3 - rows * 5] = {state: 1, age: 0};
-
-    } else if (shape === "Glider") {
-      newGridCells[middle] = {state: 1, age: 0};
-      newGridCells[middle + rows + 1] = {state: 1, age: 0};
-      newGridCells[middle + rows + 2] = {state: 1, age: 0};
-      newGridCells[middle + rows * 2] = {state: 1, age: 0};
-      newGridCells[middle + rows * 2 + 1] = {state: 1, age: 0};
-    }
+    const newGridCells = getGridFromShape(shape, rows, cols);
     setGridCells(newGridCells);
   }
 
   useEffect(() => {
-
     const generationUpdate = () => {
       const newGridCells: Cell[] = [];
       const arrayLength = gridCells.length;
       for (let cell = 0; cell < arrayLength; cell++) {
         let adjacentAlive = 0;
-        // prev
+        // check the 8 adjacent squares
         adjacentAlive = adjacentAlive + (cell === 0 ? gridCells[rows * cols - 1].state : gridCells[cell - 1].state);
-        // next
         adjacentAlive = adjacentAlive + (cell === (rows * cols - 1) ? gridCells[0].state : gridCells[cell + 1].state);
-        // row below
         adjacentAlive = adjacentAlive + ((cell - cols - 1) < 0 ? gridCells[arrayLength + (cell - cols - 1)].state : gridCells[cell - cols - 1].state);
         adjacentAlive = adjacentAlive + ((cell - cols) < 0 ? gridCells[arrayLength + (cell - cols)].state : gridCells[cell - cols].state);
         adjacentAlive = adjacentAlive + ((cell - cols + 1) < 0 ? gridCells[arrayLength + (cell - cols + 1)].state : gridCells[cell - cols + 1].state);
-        // row above
         adjacentAlive = adjacentAlive + ((cell + cols - 1) >= arrayLength ? gridCells[(cell + cols - 1) - arrayLength].state : gridCells[cell + cols - 1].state);
         adjacentAlive = adjacentAlive + ((cell + cols) >= arrayLength ? gridCells[(cell + cols) - arrayLength].state : gridCells[cell + cols].state);
         adjacentAlive = adjacentAlive + ((cell + cols + 1) >= arrayLength ? gridCells[(cell + cols + 1) - arrayLength].state : gridCells[cell + cols + 1].state);
 
+        // determine new state and age
         const isAlive = gridCells[cell].state === 1;
         if (adjacentAlive === 3 || (adjacentAlive === 2 && isAlive)) {
           const age = gridCells[cell].age + 1;
@@ -318,10 +68,10 @@ function App() {
         generationUpdate();
       }, speeds[currentSpeed]);
     }
-    return () => { // Return callback to run on unmount.
+    return () => {
       window.clearInterval(timer);
     };
-  }, [isRunning, currentSpeed, currentColor, generation, gridCells]); // Pass in empty array to run useEffect only on mount.
+  }, [isRunning, currentSpeed, currentColor, generation, gridCells]);
 
   const handleChange = (event: any) => {
     setCurrentSpeed(event.target.value);
@@ -337,28 +87,24 @@ function App() {
               <button key={`theme-${i}`} onClick={() => setCurrentColor(i)}>{theme.name}</button>
           )}
         </div>
-
         <div className="grid">
           { gridCells.map((cell, i) =>
             <GridCell
               key={`cell-${i}`}
               index={i}
-              toggleCell={() => toggleCell(i)}
+              onSelectCell={() => toggleCell(i)}
               isRunning={isRunning}
               color={cell.state === 0 ? "aliceblue" : colorThemes[currentColor].colors[cell.age]}
             />
           )}
         </div>
-
         <div className="shapes">
           Add Shape
           { shapes.map((shape, i) =>
               <button key={`shape-${i}`} onClick={() => setShape(shape.name)}>{shape.name}</button>
           )}
         </div>
-
       </div>
-
       <div className="generation">Current Generation: {generation}</div>
       <div className="control-buttons">
         <button disabled={isRunning} onClick={() => setIsRunning(true)}>Start</button>
