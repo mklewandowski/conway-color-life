@@ -50,6 +50,7 @@ export interface Shape {
 }
 
 export const shapes: Shape[] = [
+  { name: "None" },
   { name: "Big Mug" },
   { name: "Snake" },
   { name: "Bucket" },

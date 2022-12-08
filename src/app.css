@@ -56,6 +56,27 @@
   cursor: pointer;
 }
 
+.divider {
+  background-color: white;
+  width: 600px;
+  height: 1px;
+  margin: 5px 0 5px 0;
+}
+
+.options-container {
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.select {
+  margin: 10px;
+  width: 150px;
+  font-size: 20px;
+  font-family: 'VT323', monospace;
+}
+
 .grid {
   display: flex;
   flex-wrap: wrap;

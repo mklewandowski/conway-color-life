@@ -13,6 +13,7 @@ function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [currentColor, setCurrentColor] = useState(0);
   const [currentSpeed, setCurrentSpeed] = useState(1);
+  const [startShape, setStartShape] = useState("None");
   const [generation, setGeneration] = useState(0);
   const [gridCells, setGridCells] = useState(Array.from({length: rows * cols}, (v, i) => initialDeadCell));
 
@@ -77,16 +78,39 @@ function App() {
     setCurrentSpeed(event.target.value);
   }
 
+  const handleThemeChange = (event: any) => {
+    setCurrentColor(event.target.value);
+  }
+
+  const handleShapeChange = (event: any) => {
+    setShape(event.target.value);
+    setStartShape(event.target.value);
+  }
+
+
   return (
     <div className="App">
       <Header />
-      <div className="grid-container">
-        <div className="themes">
-          Choose Color Theme
-          { colorThemes.map((theme, i) =>
-              <button key={`theme-${i}`} onClick={() => setCurrentColor(i)}>{theme.name}</button>
-          )}
+      <div className="divider" />
+      <div className="options-container">
+        <div className="vertical-container">
+          <div>Choose Color Theme</div>
+          <select className="select" name="selectThemeList" id="selectThemeList" value={currentColor} onChange={handleThemeChange}>
+            { colorThemes.map((theme, i) =>
+                <option key={`theme-${i}`} value={i}>{theme.name}</option>
+            )}
+          </select>
         </div>
+        <div className="vertical-container">
+          <div>Add Shape</div>
+          <select className="select" name="selectShapeList" id="selectShapeList" value={startShape} onChange={handleShapeChange}>
+            { shapes.map((shape, i) =>
+                <option key={`shape-${i}`} value={shape.name}>{shape.name}</option>
+            )}
+          </select>
+        </div>
+      </div>
+      <div className="grid-container">
         <div className="grid">
           { gridCells.map((cell, i) =>
             <GridCell
@@ -96,12 +120,6 @@ function App() {
               isRunning={isRunning}
               color={cell.state === 0 ? "aliceblue" : colorThemes[currentColor].colors[cell.age]}
             />
-          )}
-        </div>
-        <div className="shapes">
-          Add Shape
-          { shapes.map((shape, i) =>
-              <button key={`shape-${i}`} onClick={() => setShape(shape.name)}>{shape.name}</button>
           )}
         </div>
       </div>
