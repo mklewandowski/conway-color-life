@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/conway-color-life/static/css/main.3b73f712.chunk.css",
-    "main.js": "/conway-color-life/static/js/main.4c70054a.chunk.js",
-    "main.js.map": "/conway-color-life/static/js/main.4c70054a.chunk.js.map",
+    "main.css": "/conway-color-life/static/css/main.8885a6a2.chunk.css",
+    "main.js": "/conway-color-life/static/js/main.e19a857b.chunk.js",
+    "main.js.map": "/conway-color-life/static/js/main.e19a857b.chunk.js.map",
     "runtime-main.js": "/conway-color-life/static/js/runtime-main.53a660e3.js",
     "runtime-main.js.map": "/conway-color-life/static/js/runtime-main.53a660e3.js.map",
     "static/js/2.ec86e17f.chunk.js": "/conway-color-life/static/js/2.ec86e17f.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.53ff88da.chunk.js": "/conway-color-life/static/js/3.53ff88da.chunk.js",
     "static/js/3.53ff88da.chunk.js.map": "/conway-color-life/static/js/3.53ff88da.chunk.js.map",
     "index.html": "/conway-color-life/index.html",
-    "static/css/main.3b73f712.chunk.css.map": "/conway-color-life/static/css/main.3b73f712.chunk.css.map",
+    "static/css/main.8885a6a2.chunk.css.map": "/conway-color-life/static/css/main.8885a6a2.chunk.css.map",
     "static/js/2.ec86e17f.chunk.js.LICENSE.txt": "/conway-color-life/static/js/2.ec86e17f.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.53a660e3.js",
     "static/js/2.ec86e17f.chunk.js",
-    "static/css/main.3b73f712.chunk.css",
-    "static/js/main.4c70054a.chunk.js"
+    "static/css/main.8885a6a2.chunk.css",
+    "static/js/main.e19a857b.chunk.js"
   ]
 }
