@@ -87,7 +87,6 @@ function App() {
     setStartShape(event.target.value);
   }
 
-
   return (
     <div className="App">
       <Header />

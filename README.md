@@ -8,6 +8,7 @@ Conway Color Life is a cellular automaton variation of [Conway's Game of Life](h
 
 Conway Color Life is hosted on a GitHub Page at https://mklewandowski.github.io/conway-color-life/index.html
 
+![Conway Color Life gameplay](https://github.com/mklewandowski/conway-color-life/blob/main/conway.gif?raw=true)
 
 ## Run Locally
 - clone GitHub repo
